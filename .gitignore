@@ -48,3 +48,4 @@ Temporary Items
 
 .svn/*
 .idea/*
+*.pyc

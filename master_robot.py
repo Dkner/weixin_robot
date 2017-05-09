@@ -28,5 +28,5 @@ def text_reply(msg):
         editor.run(editorQrCallBack)
 
 master_data_dir = os.path.join(os.path.split(os.path.realpath(__file__))[0],'master_data')
-itchat.auto_login(hotReload=True, statusStorageDir=os.path.join(master_data_dir, 'master.pkl'), picDir=os.path.join(master_data_dir, 'master_data', 'QR.png'))
+itchat.auto_login(hotReload=True, statusStorageDir=os.path.join(master_data_dir, 'master.pkl'), picDir=os.path.join(master_data_dir, 'QR.png'))
 itchat.run(blockThread=True)
