@@ -32,5 +32,6 @@ master_data_dir = os.path.join(os.path.split(os.path.realpath(__file__))[0], 'ma
 if 'Linux' in platform.platform():
     enableCmdQR = True
 else:
+    enableCmdQR = False
 itchat.auto_login(hotReload=True, statusStorageDir=os.path.join(master_data_dir, 'master.pkl'), picDir=os.path.join(master_data_dir, 'QR.png'), enableCmdQR=enableCmdQR)
 itchat.run(blockThread=True)
