@@ -1,4 +1,5 @@
 import os
+import platform
 import itchat
 from itchat.content import *
 from editor_robot import EditorRobot
@@ -27,6 +28,9 @@ def text_reply(msg):
         editor = EditorRobot(id=msg['FromUserName'], robot=itchat.new_instance())
         editor.run(editorQrCallBack)
 
-master_data_dir = os.path.join(os.path.split(os.path.realpath(__file__))[0],'master_data')
-itchat.auto_login(hotReload=True, statusStorageDir=os.path.join(master_data_dir, 'master.pkl'), picDir=os.path.join(master_data_dir, 'QR.png'))
+master_data_dir = os.path.join(os.path.split(os.path.realpath(__file__))[0], 'master_data')
+if 'Linux' in platform.platform():
+    enableCmdQR = True
+else:
+itchat.auto_login(hotReload=True, statusStorageDir=os.path.join(master_data_dir, 'master.pkl'), picDir=os.path.join(master_data_dir, 'QR.png'), enableCmdQR=enableCmdQR)
 itchat.run(blockThread=True)
