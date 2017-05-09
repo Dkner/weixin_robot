@@ -6,11 +6,13 @@ from editor_robot import EditorRobot
 
 qr_max_tried_count = 0
 
-@itchat.msg_register([TEXT, MAP, CARD, NOTE, SHARING])
+
+@itchat.msg_register([TEXT])
 def text_reply(msg):
     print(msg)
     global qr_max_tried_count
     qr_max_tried_count = 0
+
     def editorQrCallBack(uuid, status, qrcode):
         global qr_max_tried_count
         if qr_max_tried_count<2:

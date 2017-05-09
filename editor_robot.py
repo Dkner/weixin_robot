@@ -9,7 +9,7 @@ class EditorRobot(object):
         self.id = id
         self.robot = robot
 
-        @robot.msg_register([TEXT, MAP, CARD, NOTE, SHARING])
+        @robot.msg_register([TEXT])
         def auto_reply(msg):
             auto_reply = '''【进群前，请仔细阅读名片全能王社群 - 群规】
 1. 本群为实名商务社群，入群后先修改自己的群昵称：地域+行业+职位+姓名。
