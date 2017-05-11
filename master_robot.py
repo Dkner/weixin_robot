@@ -5,8 +5,7 @@ from itchat.content import *
 from editor_robot import FenqunRobot, ZongqunRobot
 
 QR_MAX_TRIED_COUNT = 0
-HELP = '''
-你好！我是机器人管理员。
+HELP = '''你好！我是机器人管理员。
 回复“总群机器人”——获取总群机器人的身份二维码
 回复“分群机器人”——获取分群机器人的身份二维码
 
@@ -14,8 +13,7 @@ HELP = '''
 1）获取二维码之后扫描登录即可成为相应机器人
 2）获取二维码后不登录超过一定时间，二维码会失效，若失效请重新操作
 3）每个二维码只能供一个机器人使用
-4）在微信中退出网页版登录即可退出机器人模式
-'''
+4）在微信中退出网页版登录即可退出机器人模式'''
 
 
 @itchat.msg_register([TEXT])
