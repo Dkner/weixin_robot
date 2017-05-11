@@ -20,7 +20,8 @@ class EditorRobot(object):
         '1034': '名片全能王 - 冶炼五金交流群',
         '1035': '名片全能王 - 能源资源交流群',
     }
-    editor_pic = ['chenchen.png', 'miaomiao.png', 'nana.png', 'xiaofang.png', 'xiaoyi.png', 'xiaozhi.png']
+    # editor_pic = ['chenchen.png', 'miaomiao.png', 'nana.png', 'xiaofang.png', 'xiaoyi.png', 'xiaozhi.png']
+    editor_pic = ['chenchen.png', 'xiaozhi.png']
     center_group = ['名片全能王3群-商务资源对接', '名片全能王19群-商务资源对接', '名片全能王20群-商务资源对接']
 
     def __init__(self, id, robot):
