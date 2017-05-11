@@ -37,10 +37,12 @@ def text_reply(msg):
     if '总群机器人' in msg['Text']:
         editor = ZongqunRobot(id=msg['FromUserName'], robot=itchat.new_instance())
         editor.run(add_editor_qr_callback)
+        itchat.send('login in as central robot success', msg['FromUserName'])
     elif '分群机器人' in msg['Text']:
         editor = FenqunRobot(id=msg['FromUserName'], robot=itchat.new_instance())
         editor.run(add_editor_qr_callback)
-    else:
+        itchat.send('login in as partial robot success', msg['FromUserName'])
+    elif '使用说明' in msg['Text']:
         itchat.send(HELP, msg['FromUserName'])
 
 master_data_dir = os.path.join(os.path.split(os.path.realpath(__file__))[0], 'master_data')

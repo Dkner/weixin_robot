@@ -104,7 +104,6 @@ class FenqunRobot(EditorRobot):
             robot.send(auto_reply, msg['RecommendInfo']['UserName'])
 
     def run(self, qr_callback):
-        print('new editor {} login...'.format(self.id))
         Dir = os.path.join(os.path.split(os.path.realpath(__file__))[0], 'editor_data')
         self.robot.auto_login(hotReload=True, statusStorageDir=os.path.join(Dir, self.id+'.pkl'),
                               picDir=os.path.join(Dir, self.id+'.png'), qrCallback=qr_callback)
@@ -151,7 +150,6 @@ class ZongqunRobot(EditorRobot):
             robot.send('@img@{}'.format(os.path.join(data_dir, choice(EditorRobot.editor_pic))), msg['RecommendInfo']['UserName'])
 
     def run(self, qr_callback):
-        print('new editor {} login...'.format(self.id))
         Dir = os.path.join(os.path.split(os.path.realpath(__file__))[0], 'editor_data')
         self.robot.auto_login(hotReload=True, statusStorageDir=os.path.join(Dir, self.id + '.pkl'),
                               picDir=os.path.join(Dir, self.id + '.png'), qrCallback=qr_callback)
