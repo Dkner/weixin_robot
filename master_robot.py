@@ -48,5 +48,5 @@ if 'Linux' in platform.platform():
     enableCmdQR = 2
 else:
     enableCmdQR = False
-itchat.auto_login(hotReload=True, statusStorageDir=os.path.join(master_data_dir, 'master.pkl'), picDir=os.path.join(master_data_dir, 'QR.png'), enableCmdQR=enableCmdQR)
+itchat.auto_login(hotReload=False, statusStorageDir=os.path.join(master_data_dir, 'master.pkl'), picDir=os.path.join(master_data_dir, 'QR.png'), enableCmdQR=enableCmdQR)
 itchat.run(blockThread=True)
