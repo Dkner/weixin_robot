@@ -81,9 +81,11 @@ class FenqunRobot(EditorRobot):
             '''
             if msg['Text'] in FenqunRobot.division_group_map.keys():
                 friend = robot.search_friends(userName=msg['FromUserName'])
-                print('friend----------------------->', friend)
                 chatrooms = robot.search_chatrooms(name=FenqunRobot.division_group_map.get(msg['Text']))
-                print('chatrooms-------------------->', chatrooms)
+                if not friend:
+                    friend = robot.search_friends(userName=msg['FromUserName'])
+                if not chatrooms:
+                    chatrooms = robot.search_chatrooms(name=FenqunRobot.division_group_map.get(msg['Text']))
                 if friend and chatrooms:
                     robot.add_member_into_chatroom(chatrooms[0]['UserName'], [friend], useInvitation=True)
             else:
@@ -112,9 +114,11 @@ class ZongqunRobot(EditorRobot):
             :return:
             '''
             friend = robot.search_friends(userName=msg['FromUserName'])
-            print('friend----------------------->', friend)
             chatrooms = robot.search_chatrooms(name=choice(EditorRobot.center_group))
-            print('chatrooms-------------------->', chatrooms)
+            if not friend:
+                friend = robot.search_friends(userName=msg['FromUserName'])
+            if not chatrooms:
+                chatrooms = robot.search_chatrooms(name=choice(EditorRobot.center_group))
             if friend and chatrooms:
                 robot.add_member_into_chatroom(chatrooms[0]['UserName'], [friend], useInvitation=True)
 
