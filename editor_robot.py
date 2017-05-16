@@ -72,7 +72,7 @@ class FenqunRobot(EditorRobot):
     def __init__(self, id, robot):
         EditorRobot.__init__(self, id, robot)
 
-        @robot.msg_register([TEXT])
+        @robot.msg_register(TEXT)
         def auto_reply(msg):
             '''
             用户回复数字，发送分群链接；否则，自动回复文案
@@ -87,9 +87,8 @@ class FenqunRobot(EditorRobot):
                 if not chatrooms:
                     chatrooms = robot.search_chatrooms(name=FenqunRobot.division_group_map.get(msg['Text']))
                 if friend and chatrooms:
-                    robot.add_member_into_chatroom(chatrooms[0]['UserName'], [friend], useInvitation=True)
-                else:
-                    print("friend->{}\nchatroom {}->{} search failed".format(friend, FenqunRobot.division_group_map.get(msg['Text']), chatrooms))
+                    ret = robot.add_member_into_chatroom(chatrooms[0]['UserName'], [friend], useInvitation=True)
+                print("friend->{}\nchatroom {}->{}\nret->{}".format(friend, FenqunRobot.division_group_map.get(msg['Text']), chatrooms, ret))
             else:
                 robot.send(FENQUN_AUTOREPLY, msg['FromUserName'])
 
@@ -108,13 +107,14 @@ class ZongqunRobot(EditorRobot):
     def __init__(self, id, robot):
         EditorRobot.__init__(self, id, robot)
 
-        @robot.msg_register([PICTURE])
+        @robot.msg_register(PICTURE)
         def add_group_reply(msg):
             '''
             收到用户截图，发送总群链接
             :param msg:
             :return:
             '''
+            print(msg)
             friend = robot.search_friends(userName=msg['FromUserName'])
             chatroom_name = choice(EditorRobot.center_group)
             chatrooms = robot.search_chatrooms(name=chatroom_name)
@@ -124,9 +124,8 @@ class ZongqunRobot(EditorRobot):
                 chatroom_name = choice(EditorRobot.center_group)
                 chatrooms = robot.search_chatrooms(name=chatroom_name)
             if friend and chatrooms:
-                robot.add_member_into_chatroom(chatrooms[0]['UserName'], [friend], useInvitation=True)
-            else:
-                print("friend->{}\nchatroom {}->{} search failed".format(friend, chatroom_name, chatrooms))
+                ret = robot.add_member_into_chatroom(chatrooms[0]['UserName'], [friend], useInvitation=True)
+            print("friend->{}\nchatroom {}->{}\nret->{}".format(friend, chatroom_name, chatrooms, ret))
 
         @robot.msg_register(FRIENDS)
         def add_friend(msg):
