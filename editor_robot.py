@@ -88,6 +88,8 @@ class FenqunRobot(EditorRobot):
                     chatrooms = robot.search_chatrooms(name=FenqunRobot.division_group_map.get(msg['Text']))
                 if friend and chatrooms:
                     robot.add_member_into_chatroom(chatrooms[0]['UserName'], [friend], useInvitation=True)
+                else:
+                    print("friend->{}\nchatroom {}->{} search failed".format(friend, FenqunRobot.division_group_map.get(msg['Text']), chatrooms))
             else:
                 robot.send(FENQUN_AUTOREPLY, msg['FromUserName'])
 
@@ -114,13 +116,17 @@ class ZongqunRobot(EditorRobot):
             :return:
             '''
             friend = robot.search_friends(userName=msg['FromUserName'])
-            chatrooms = robot.search_chatrooms(name=choice(EditorRobot.center_group))
+            chatroom_name = choice(EditorRobot.center_group)
+            chatrooms = robot.search_chatrooms(name=chatroom_name)
             if not friend:
                 friend = robot.search_friends(userName=msg['FromUserName'])
             if not chatrooms:
-                chatrooms = robot.search_chatrooms(name=choice(EditorRobot.center_group))
+                chatroom_name = choice(EditorRobot.center_group)
+                chatrooms = robot.search_chatrooms(name=chatroom_name)
             if friend and chatrooms:
                 robot.add_member_into_chatroom(chatrooms[0]['UserName'], [friend], useInvitation=True)
+            else:
+                print("friend->{}\nchatroom {}->{} search failed".format(friend, chatroom_name, chatrooms))
 
         @robot.msg_register(FRIENDS)
         def add_friend(msg):
