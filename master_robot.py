@@ -256,7 +256,7 @@ class FenqunRobot(Robot):
                 if client and db:
                     count = db.user.count({'name': msg.User['RemarkName'], 'is_fenqun_invited': {'$gt': 2}})
                     if count > 0:
-                        # self.robot.send('获取群邀请次数已达上限', user[0]['UserName'])
+                        self.robot.send('获取群邀请次数已达上限', msg['FromUserName'])
                         return
 
                 ret = ''
