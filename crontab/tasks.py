@@ -54,6 +54,6 @@ def group_invite():
                 print(record)
                 record['_id'] = str(record['_id'])
                 redis.rpush('weixin_robot_admin_command', json.dumps(record))
-                db.task.find_one_and_update({'_id':ObjectId(record['_id'])}, {'status':2})
+                db.task.find_one_and_update({'_id':ObjectId(record['_id'])}, {'$set':{'status':2}})
         start += step
     client.close()
