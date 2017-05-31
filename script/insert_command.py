@@ -1,6 +1,8 @@
-import redis
 import json
-import config
+
+import redis
+
+from conf import config
 
 
 def connect_redis():

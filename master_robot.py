@@ -1,14 +1,16 @@
+import json
 import os
+import platform
+import threading
 import time
 from random import choice
-import json
-import threading
-import platform
-import redis
-import pymongo
+
 import itchat
+import pymongo
+import redis
 from itchat.content import *
-import config
+
+from conf import config
 
 HELP = '''你好！我是机器人管理员。
 回复“总群机器人”——获取总群机器人的身份二维码
@@ -69,7 +71,7 @@ class Robot(object):
         # '1033': '名片全能王 - 化工行业交流群',
         # '1034': '名片全能王 - 冶炼五金交流群',
         # '1035': '名片全能王 - 能源资源交流群',
-        'fenqun1': 'CC微信机器人开发'
+        'fenqun1': '微信机器人开发'
     }
     # editor_pic = ['chenchen.png', 'miaomiao.png', 'nana.png', 'xiaofang.png', 'xiaoyi.png', 'xiaozhi.png']
     editor_pic = ['chenchen.png', 'xiaozhi.png']
@@ -99,7 +101,8 @@ class Robot(object):
         self.robot = itchat.new_instance()
 
     def connect_redis(self):
-        connection = redis.Redis(host=config.REDIS[self.env]['host'], port=int(config.REDIS[self.env]['port']), db=int(config.REDIS[self.env]['db']),
+        connection = redis.Redis(host=config.REDIS[self.env]['host'], port=int(config.REDIS[self.env]['port']), db=int(
+            config.REDIS[self.env]['db']),
                                  password=config.REDIS[self.env]['password'])
         return connection
 
@@ -354,7 +357,9 @@ class ZongqunRobot(Robot):
         @self.robot.msg_register(FRIENDS)
         def add_friend(msg):
             '''
-            自动加好友，并回复自我介绍和入群指示，统计已加好友
+            1.自动加好友，并回复自我介绍和入群指示
+            2.统计已加好友
+            3.埋点24小时的群邀请任务
             :param msg:
             :return:
             '''
@@ -381,6 +386,7 @@ class ZongqunRobot(Robot):
                     }
                 }
                 self.do_register(alias, register_info)
+                self.add_group_invite_trigger(alias)
 
     def register_command(self):
         self.command_func_dict['group_invite'] = self.group_invite
@@ -423,3 +429,19 @@ class ZongqunRobot(Robot):
                 }
             }
             self.do_register(value, register_info)
+
+    def add_group_invite_trigger(self, user_name):
+        client, db = self.connect_mongo()
+        if not client or not db:
+            print('connect mongo failed')
+            return False
+        task_info = {
+            'key': 'group_invite',
+            'value': {
+                'robot_name': self.name,
+                'user_name': user_name,
+                'create_time': int(time.time()),
+                'trigger_time': int(time.time()) + 86400
+            }
+        }
+        db.task.insert(task_info)
