@@ -10,14 +10,11 @@ CELERYBEAT_SCHEDULE = {
         'schedule': crontab(minute='*'),
         'args': (),
     },
+    'add-every-5-seconds': {
+        'task': 'tasks.add',
+        'schedule': timedelta(seconds=5),
+        'args': (16, 10),
+    },
 }
-
-# CELERYBEAT_SCHEDULE = {
-#     'add-every-2-seconds': {
-#         'task': 'tasks.add',
-#         'schedule': timedelta(seconds=2),
-#         'args': (16, 10),
-#     },
-# }
 
 CELERY_TIMEZONE = 'UTC'

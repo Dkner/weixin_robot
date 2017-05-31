@@ -5,7 +5,9 @@ import pymongo
 import redis
 from celery import Celery, platforms
 
-from conf import config
+import sys
+sys.path.append('..')
+import conf.config as config
 
 app = Celery('tasks')
 app.config_from_object('task_config')
@@ -49,6 +51,7 @@ def group_invite():
         this_loop_records = db.task.find({'status':1}).limit(step).skip(start)
         for record in this_loop_records:
             if record.get('key') and record.get('trigger_time')>0 and record.get('trigger_time') < int(time.time()):
+                print(record)
                 redis.rpush('weixin_robot_admin_command', json.dumps(record))
                 db.task.find_and_modify({'_id':ObjectId(str(record['_id']))}, {'status':2})
         start += step
