@@ -79,8 +79,8 @@ class Robot(object):
         # '3': '名片全能王3群-商务资源对接',
         # '19': '名片全能王19群-商务资源对接',
         # '20': '名片全能王20群-商务资源对接',
-        'test1': 'CC微信机器人开发',
-        'test2': 'CC微信机器人开发'
+        'test1': '微信机器人开发',
+        'test2': '微信机器人开发'
     }
 
     def __init__(self, env='DEV', id='robot_id', duty='robot', enableCmdQR=False, qrCallback=False, hotReload=False, blockThread=False):
@@ -408,8 +408,8 @@ class ZongqunRobot(Robot):
         if not chatrooms:
             chatroom_id = choice(list(Robot.center_group.keys()))
             chatrooms = self.robot.search_chatrooms(name=Robot.center_group[chatroom_id])
-        if isinstance(user, dict) and len(user)==1 and chatrooms:
-            # ret = self.robot.add_member_into_chatroom(chatrooms[0]['UserName'], user, useInvitation=True)
+        if isinstance(user, list) and len(user)==1 and chatrooms:
+            ret = self.robot.add_member_into_chatroom(chatrooms[0]['UserName'], user, useInvitation=True)
             print('shit--------------')
         print("friend->{}\nchatroom {}->{}\nret->{}".format(user, chatroom_id, chatrooms, ret))
         if ret:
@@ -440,8 +440,9 @@ class ZongqunRobot(Robot):
             'value': {
                 'robot_name': self.name,
                 'user_name': user_name,
-                'create_time': int(time.time()),
-                'trigger_time': int(time.time()) + 86400
-            }
+            },
+            # 'trigger_time': int(time.time()) + 86400
+            'trigger_time': int(time.time()),
+            'status': 1
         }
         db.task.insert(task_info)

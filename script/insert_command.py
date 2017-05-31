@@ -1,5 +1,4 @@
 import json
-
 import redis
 
 from conf import config
@@ -16,9 +15,10 @@ command = {
     'key': 'group_invite',
     'value': {
         'robot_name': '亮',
-        'user_name': '名片全能王-管理员_1495186431'
-        # 'user_name': ''
-    }
+        'user_name': '名片全能王-管理员_1495186431',
+    },
+    'trigger_time': 1496229713,
+    'status': 1
 }
 ret = redis.rpush('weixin_robot_admin_command',json.dumps(command))
 print(ret)
