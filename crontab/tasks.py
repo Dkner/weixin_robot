@@ -4,29 +4,30 @@ import json
 import pymongo
 import redis
 from celery import Celery, platforms
-
 import sys
 sys.path.append('..')
 import conf.config as config
+from crontab import const
+
 
 app = Celery('tasks')
 app.config_from_object('task_config')
 platforms.C_FORCE_ROOT = True
 
-
 def connect_redis():
-    env = 'DEV'
-    connection = redis.Redis(host=config.REDIS[env]['host'], port=int(config.REDIS[env]['port']), db=int(
-        config.REDIS[env]['db']),
-                             password=config.REDIS[env]['password'])
+    connection = redis.Redis(
+        host=config.REDIS[const.ENV]['host'],
+        port=int(config.REDIS[const.ENV]['port']),
+        db=int(config.REDIS[const.ENV]['db']),
+        password=config.REDIS[const.ENV]['password']
+    )
     return connection
 
 def connect_mongo():
-    env = 'DEV'
-    conn = pymongo.MongoClient(config.MONGO[env]['host'], int(config.MONGO[env]['port']))
-    db = eval("conn." + config.MONGO[env]['db'])
-    ret = db.authenticate(config.MONGO[env]['user'], config.MONGO[env]['password'],
-                          config.MONGO[env]['db'])
+    conn = pymongo.MongoClient(config.MONGO[const.ENV]['host'], int(config.MONGO[const.ENV]['port']))
+    db = eval("conn." + config.MONGO[const.ENV]['db'])
+    ret = db.authenticate(config.MONGO[const.ENV]['user'], config.MONGO[const.ENV]['password'],
+                          config.MONGO[const.ENV]['db'])
     if not ret:
         return conn, False
     return conn, db
