@@ -14,8 +14,8 @@ redis = connect_redis()
 command = {
     'key': 'group_invite',
     'value': {
-        'robot_name': '亮',
-        'user_name': '名片全能王-管理员_1495186431',
+        'robot_name': '名片全能王-管理员_1495186431',
+        'user_name': '亮',
     },
     'trigger_time': 1496229713,
     'status': 1

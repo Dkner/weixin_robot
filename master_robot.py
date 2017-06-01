@@ -58,36 +58,36 @@ FENQUN_AUTOREPLY = '''这是由名片全能王筹建的商务合作社群，是�
 class Robot(object):
     sign = '660d69e655f0a455c8c625584fd63470'
     division_group_map = {
-        # '1023': '名片全能王 - 机械机电自动化交流群',
-        # '1024': '名片全能王 - 金融行业交流群',
-        # '1025': '名片全能王 - IT互联网行业交流群',
-        # '1026': '名片全能王 - 房产建筑行业交流群',
-        # '1027': '名片全能王 - 快消零售交流群',
-        # '1028': '名片全能王 - 广告媒体交流群',
-        # '1029': '名片全能王 - 教育行业交流群',
-        # '1030': '名片全能王 - 医疗行业交流群',
-        # '1031': '名片全能王 - 电子电器行业交流群',
-        # '1032': '名片全能王 - 交通运输物流交流群',
-        # '1033': '名片全能王 - 化工行业交流群',
-        # '1034': '名片全能王 - 冶炼五金交流群',
-        # '1035': '名片全能王 - 能源资源交流群',
-        'fenqun1': '微信机器人开发'
+        '1023': '名片全能王 - 机械机电自动化交流群',
+        '1024': '名片全能王 - 金融行业交流群',
+        '1025': '名片全能王 - IT互联网行业交流群',
+        '1026': '名片全能王 - 房产建筑行业交流群',
+        '1027': '名片全能王 - 快消零售交流群',
+        '1028': '名片全能王 - 广告媒体交流群',
+        '1029': '名片全能王 - 教育行业交流群',
+        '1030': '名片全能王 - 医疗行业交流群',
+        '1031': '名片全能王 - 电子电器行业交流群',
+        '1032': '名片全能王 - 交通运输物流交流群',
+        '1033': '名片全能王 - 化工行业交流群',
+        '1034': '名片全能王 - 冶炼五金交流群',
+        '1035': '名片全能王 - 能源资源交流群',
+        # 'fenqun1': '微信机器人开发'
     }
     # editor_pic = ['chenchen.png', 'miaomiao.png', 'nana.png', 'xiaofang.png', 'xiaoyi.png', 'xiaozhi.png']
     editor_pic = ['chenchen.png', 'xiaozhi.png']
     center_group = {
-        # '3': '名片全能王3群-商务资源对接',
-        # '19': '名片全能王19群-商务资源对接',
-        # '20': '名片全能王20群-商务资源对接',
-        'test1': '微信机器人开发',
-        'test2': '微信机器人开发'
+        '3': '名片全能王3群-商务资源对接',
+        '19': '名片全能王19群-商务资源对接',
+        '20': '名片全能王20群-商务资源对接',
+        # 'test1': '微信机器人开发',
+        # 'test2': '微信机器人开发'
     }
 
     def __init__(self, env='DEV', id='robot_id', duty='robot', enableCmdQR=False, qrCallback=False, hotReload=False, blockThread=False):
         self.env = env
         if id=='robot_id':
-            # self.id = 'robot_'+ str(int(time.time()))
-            self.id = 'robot_id'
+            self.id = 'robot_'+ str(int(time.time()))
+            # self.id = 'robot_id'
         else:
             self.id = id
         self.name = ''
@@ -172,7 +172,7 @@ class RobotAdmin(Robot):
 
     def __init__(self, env):
         enableCmdQR = 2 if 'Linux' in platform.platform() else False
-        super(RobotAdmin, self).__init__(env=env, duty='robot admin', enableCmdQR=enableCmdQR, blockThread=True, hotReload=True)
+        super(RobotAdmin, self).__init__(env=env, duty='robot admin', enableCmdQR=enableCmdQR, blockThread=True)
         self.QR_MAX_TRIED_COUNT = 0
         self.command_func_dict = {}
         self.register_command()
@@ -210,7 +210,7 @@ class RobotAdmin(Robot):
         self.command_func_dict['group_invite'] = self.group_invite
 
     def group_invite(self, value):
-        editor_robot = self.robot.search_friends(nickName=value['robot_name'])
+        editor_robot = self.robot.search_friends(name=value['robot_name'])
         print(editor_robot)
         if editor_robot:
             command = {
@@ -245,7 +245,7 @@ class RobotAdmin(Robot):
 class FenqunRobot(Robot):
 
     def __init__(self, env, id, qrCallback):
-        super(FenqunRobot, self).__init__(env=env, id=id, duty='partial robot', hotReload=True, qrCallback=qrCallback)
+        super(FenqunRobot, self).__init__(env=env, id=id, duty='partial robot', qrCallback=qrCallback)
 
         @self.robot.msg_register(TEXT)
         def auto_reply(msg):
@@ -326,7 +326,7 @@ class FenqunRobot(Robot):
 
 class ZongqunRobot(Robot):
     def __init__(self, env, id, qrCallback):
-        super(ZongqunRobot, self).__init__(env=env, id=id, duty='central robot', hotReload=True, qrCallback=qrCallback)
+        super(ZongqunRobot, self).__init__(env=env, id=id, duty='central robot', qrCallback=qrCallback)
         self.command_func_dict = {}
         self.register_command()
 
@@ -410,7 +410,6 @@ class ZongqunRobot(Robot):
             chatrooms = self.robot.search_chatrooms(name=Robot.center_group[chatroom_id])
         if isinstance(user, list) and len(user)==1 and chatrooms:
             ret = self.robot.add_member_into_chatroom(chatrooms[0]['UserName'], user, useInvitation=True)
-            print('shit--------------')
         print("friend->{}\nchatroom {}->{}\nret->{}".format(user, chatroom_id, chatrooms, ret))
         if ret:
             group_tag_id = 'tags.g' + chatroom_id

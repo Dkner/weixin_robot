@@ -17,7 +17,7 @@ task_info = {
     'key': 'group_invite',
     'value': {
         'robot_name': '亮',
-        'user_name': '名片全能王 阿深_1496230041',
+        'user_name': '舒深_1496289391',
     },
     'trigger_time': 1496229713,
     'status': 1

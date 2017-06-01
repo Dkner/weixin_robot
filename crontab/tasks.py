@@ -58,3 +58,4 @@ def group_invite():
                 db.task.find_one_and_update({'_id':ObjectId(record['_id'])}, {'$set':{'status':2}})
         start += step
     client.close()
+    return True
