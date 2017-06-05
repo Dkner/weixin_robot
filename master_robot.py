@@ -269,7 +269,7 @@ class FenqunRobot(Robot):
                     friend = self.robot.search_friends(name=msg.User['RemarkName'])
                 if not chatrooms:
                     chatrooms = self.robot.search_chatrooms(name=FenqunRobot.division_group_map.get(msg['Text']))
-                if isinstance(friend, dict) and len(friend)==1 and chatrooms:
+                if isinstance(friend, list) and len(friend)==1 and chatrooms:
                     ret = self.robot.add_member_into_chatroom(chatrooms[0]['UserName'], friend, useInvitation=True)
                     if ret:
                         group_tag_id = 'tags.g' + msg['Text']

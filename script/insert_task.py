@@ -16,8 +16,8 @@ client, db = connect_mongo()
 task_info = {
     'key': 'group_invite',
     'value': {
-        'robot_name': '亮',
-        'user_name': '舒深_1496289391',
+        'robot_name': '名片全能王-小助手-苗苗',
+        'user_name': '亮_1496304663',
     },
     'trigger_time': 1496229713,
     'status': 1
