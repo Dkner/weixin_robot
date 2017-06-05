@@ -172,7 +172,7 @@ class RobotAdmin(Robot):
 
     def __init__(self, env):
         enableCmdQR = 2 if 'Linux' in platform.platform() else False
-        super(RobotAdmin, self).__init__(env=env, duty='robot admin', enableCmdQR=enableCmdQR, blockThread=True)
+        super().__init__(env=env, duty='robot admin', enableCmdQR=enableCmdQR, blockThread=True)
         self.QR_MAX_TRIED_COUNT = 0
         self.command_func_dict = {}
         self.register_command()
@@ -245,7 +245,7 @@ class RobotAdmin(Robot):
 class FenqunRobot(Robot):
 
     def __init__(self, env, id, qrCallback):
-        super(FenqunRobot, self).__init__(env=env, id=id, duty='partial robot', qrCallback=qrCallback)
+        super().__init__(env=env, id=id, duty='partial robot', qrCallback=qrCallback)
 
         @self.robot.msg_register(TEXT)
         def auto_reply(msg):
@@ -326,7 +326,7 @@ class FenqunRobot(Robot):
 
 class ZongqunRobot(Robot):
     def __init__(self, env, id, qrCallback):
-        super(ZongqunRobot, self).__init__(env=env, id=id, duty='central robot', qrCallback=qrCallback)
+        super().__init__(env=env, id=id, duty='central robot', qrCallback=qrCallback)
         self.command_func_dict = {}
         self.register_command()
 
