@@ -80,7 +80,6 @@ class Robot(object):
         '19': '名片全能王19群-商务资源对接',
         '20': '名片全能王20群-商务资源对接',
         # 'test1': '微信机器人开发',
-        # 'test2': '微信机器人开发'
     }
 
     def __init__(self, env='DEV', id='robot_id', duty='robot', enableCmdQR=False, qrCallback=False, hotReload=False, blockThread=False):
@@ -171,7 +170,8 @@ class Robot(object):
 class RobotAdmin(Robot):
 
     def __init__(self, env):
-        enableCmdQR = 2 if 'Linux' in platform.platform() else False
+        # enableCmdQR = 2 if 'Linux' in platform.platform() else False
+        enableCmdQR = False
         super().__init__(env=env, duty='robot admin', enableCmdQR=enableCmdQR, blockThread=True)
         self.QR_MAX_TRIED_COUNT = 0
         self.command_func_dict = {}
@@ -257,7 +257,7 @@ class FenqunRobot(Robot):
             if msg['Text'] in FenqunRobot.division_group_map.keys():
                 client, db = self.connect_mongo()
                 if client and db:
-                    count = db.user.count({'name': msg.User['RemarkName'], 'is_fenqun_invited': {'$gt': 2}})
+                    count = db.user.count({'name': msg.User['RemarkName'], 'is_fenqun_invited': {'$gte': 2}})
                     if count > 0:
                         self.robot.send('获取群邀请次数已达上限', msg['FromUserName'])
                         return
@@ -332,6 +332,11 @@ class ZongqunRobot(Robot):
 
         @self.robot.msg_register(TEXT)
         def admin_task(msg):
+            '''
+            接收机器人管理员的任务消息执行相应的任务
+            :param msg:
+            :return:
+            '''
             sign = msg['Text'][:32]
             if sign != Robot.sign:
                 return
@@ -351,7 +356,6 @@ class ZongqunRobot(Robot):
             :param msg:
             :return:
             '''
-            print(msg)
             self.group_invite(msg.User['RemarkName'])
 
         @self.robot.msg_register(FRIENDS)
@@ -440,8 +444,8 @@ class ZongqunRobot(Robot):
                 'robot_name': self.name,
                 'user_name': user_name,
             },
-            # 'trigger_time': int(time.time()) + 86400
-            'trigger_time': int(time.time()),
+            'trigger_time': int(time.time()) + 86400,
+            # 'trigger_time': int(time.time()),
             'status': 1
         }
         db.task.insert(task_info)
