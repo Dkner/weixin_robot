@@ -1,6 +1,6 @@
 import sys
 import getopt
-from master_robot import RobotAdmin
+from admin_robot import RobotAdmin
 
 if __name__ == '__main__':
     optlist, args = getopt.getopt(sys.argv[1:], 'e:', ['env='])
