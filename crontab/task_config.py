@@ -16,7 +16,7 @@ BROKER_URL = 'redis://:{}@{}:{}/{}'.format(
 CELERYBEAT_SCHEDULE = {
     'group-invite-every-minute': {
         'task': 'tasks.group_invite',
-        'schedule': crontab(hour=24),
+        'schedule': crontab(hour=10),
         'args': (),
     },
     # 'add-every-5-seconds': {

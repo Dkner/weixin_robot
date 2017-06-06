@@ -1,3 +1,4 @@
+import os
 import time
 import json
 from random import choice
@@ -79,39 +80,39 @@ class ZongqunRobot(Robot):
             user_name = user_remarkname if user_remarkname else user_nickname
             self.group_invite(user_name)
 
-        # @self.robot.msg_register(FRIENDS)
-        # def add_friend(msg):
-        #     '''
-        #     1.自动加好友，并回复自我介绍和入群指示
-        #     2.统计已加好友
-        #     3.埋点24小时的群邀请任务
-        #     :param msg:
-        #     :return:
-        #     '''
-        #     print(msg)
-        #     self.robot.add_friend(userName=msg['RecommendInfo']['UserName'], status=3)
-        #     alias = msg['RecommendInfo']['NickName'] + '_' + str(int(time.time()))
-        #     self.robot.set_alias(msg['RecommendInfo']['UserName'], alias)
-        #     self.robot.send(ZONGQUN_AUTOREPLY, msg['RecommendInfo']['UserName'])
-        #     ret = self.robot.send('@img@{}'.format(os.path.join(self.data_dir, choice(Robot.editor_pic))), msg['RecommendInfo']['UserName'])
-        #     if ret:
-        #         stat_info = {
-        #             '$inc': {'is_zongqun_friend': 1},
-        #             '$set': {
-        #                 'last_update': int(time.time())
-        #             }
-        #         }
-        #         self.do_stat(stat_info)
-        #         register_info = {
-        #             '$set': {
-        #                 'is_zongqun_friend': 1,
-        #                 'receive_robot': self.name,
-        #                 'create_time': int(time.time()),
-        #                 'last_update': int(time.time())
-        #             }
-        #         }
-        #         self.do_register(alias, register_info)
-        #         self.add_group_invite_trigger(alias)
+        @self.robot.msg_register(FRIENDS)
+        def add_friend(msg):
+            '''
+            1.自动加好友，并回复自我介绍和入群指示
+            2.统计已加好友
+            3.埋点24小时的群邀请任务
+            :param msg:
+            :return:
+            '''
+            print(msg)
+            self.robot.add_friend(userName=msg['RecommendInfo']['UserName'], status=3)
+            alias = msg['RecommendInfo']['NickName'] + '_' + str(int(time.time()))
+            self.robot.set_alias(msg['RecommendInfo']['UserName'], alias)
+            self.robot.send(ZONGQUN_AUTOREPLY, msg['RecommendInfo']['UserName'])
+            ret = self.robot.send('@img@{}'.format(os.path.join(self.data_dir, choice(Robot.editor_pic))), msg['RecommendInfo']['UserName'])
+            if ret:
+                stat_info = {
+                    '$inc': {'is_zongqun_friend': 1},
+                    '$set': {
+                        'last_update': int(time.time())
+                    }
+                }
+                self.do_stat(stat_info)
+                register_info = {
+                    '$set': {
+                        'is_zongqun_friend': 1,
+                        'receive_robot': self.name,
+                        'create_time': int(time.time()),
+                        'last_update': int(time.time())
+                    }
+                }
+                self.do_register(alias, register_info)
+                self.add_group_invite_trigger(alias)
 
     def register_command(self):
         self.command_func_dict['group_invite'] = self.group_invite

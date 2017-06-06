@@ -87,31 +87,32 @@ class FenqunRobot(Robot):
             else:
                 self.robot.send(FENQUN_HELP, user_id)
 
-        # @self.robot.msg_register(FRIENDS)
-        # def add_friend(msg):
-        #     '''
-        #     自动加好友，并回复入群指示
-        #     :param msg:
-        #     :return:
-        #     '''
-        #     self.robot.add_friend(userName=msg['RecommendInfo']['UserName'], status=3)
-        #     alias = msg['RecommendInfo']['NickName']+'_'+str(int(time.time()))
-        #     self.robot.set_alias(msg['RecommendInfo']['UserName'], alias)
-        #     ret = self.robot.send(FENQUN_AUTOREPLY, msg['RecommendInfo']['UserName'])
-        #     if ret:
-        #         stat_info = {
-        #             '$inc': {'is_fenqun_friend': 1},
-        #             '$set': {
-        #                 'last_update': int(time.time())
-        #             }
-        #         }
-        #         self.do_stat(stat_info)
-        #         register_info = {
-        #             '$set': {
-        #                 'is_fenqun_friend': 1,
-        #                 'receive_robot': self.name,
-        #                 'create_time': int(time.time()),
-        #                 'last_update': int(time.time())
-        #             }
-        #         }
-        #         self.do_register(alias, register_info)
+        @self.robot.msg_register(FRIENDS)
+        def add_friend(msg):
+            '''
+            自动加好友，并回复入群指示
+            :param msg:
+            :return:
+            '''
+            print(msg)
+            self.robot.add_friend(userName=msg['RecommendInfo']['UserName'], status=3)
+            alias = msg['RecommendInfo']['NickName']+'_'+str(int(time.time()))
+            self.robot.set_alias(msg['RecommendInfo']['UserName'], alias)
+            ret = self.robot.send(FENQUN_AUTOREPLY, msg['RecommendInfo']['UserName'])
+            if ret:
+                stat_info = {
+                    '$inc': {'is_fenqun_friend': 1},
+                    '$set': {
+                        'last_update': int(time.time())
+                    }
+                }
+                self.do_stat(stat_info)
+                register_info = {
+                    '$set': {
+                        'is_fenqun_friend': 1,
+                        'receive_robot': self.name,
+                        'create_time': int(time.time()),
+                        'last_update': int(time.time())
+                    }
+                }
+                self.do_register(alias, register_info)
